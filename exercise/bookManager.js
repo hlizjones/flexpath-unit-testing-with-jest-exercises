@@ -1,5 +1,3 @@
-// bookManager.js
-
 const fs = require("fs");
 
 const books = [];
@@ -18,14 +16,6 @@ const removeBook = (title) => {
 
 const findBooksByAuthor = (author) => {
   return books.filter((book) => book.author === author);
-};
-
-// Exercise 3
-const updateBookTitle = (oldTitle, newTitle) => {
-  const book = books.find((book) => book.title === oldTitle);
-  if (!book) throw new Error("Book not found");
-  book.title = newTitle;
-  return book;
 };
 
 const loadBooks = () => {
@@ -55,6 +45,5 @@ module.exports = {
   findBooksByAuthor,
   loadBooks,
   saveBooks,
-  updateBookTitle,
   books,
 };
