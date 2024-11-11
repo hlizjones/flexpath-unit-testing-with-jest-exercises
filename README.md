@@ -1,5 +1,22 @@
 ### Summary of JavaScript Concepts Covered in These Exercises
 
+Exercises instructions are in the EXERCISE-INSTRUCTIONS.txt file
+
+You will be writing your tests inside of `/exercise/tests/bookManager.test.js`
+
+For some of the exercises, feel free to create a new file inside of the 
+tests folder to hold its test code.
+
+You can name the new file anything you want, just make sure it is in the `tests` 
+folder and the file name follows this format: `[filename].test.js`
+
+Steps to run your tests:
+1. Make sure you are inside of the `exercise` folder inside of this repo in your
+   VS Code terminal
+2. Once you are inside the `exercise` folder, you can run your tests by running
+   the command `npm run test`
+
+
 1. **Unit Testing Fundamentals**:
     
     - The purpose of unit tests and how they fit into the software development lifecycle.
