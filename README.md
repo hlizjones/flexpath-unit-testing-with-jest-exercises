@@ -1,36 +1,56 @@
 
 # flexpath-unit-testing-with-jest-exercises
 
-## [Getting Started]
-
-- include gifs here
-- Include relevant steps to run exercise files or start the app
-- "Open the file located at exercise-repo-name/whatever in VS Code"
-
-- Also, include instructions on how to open their terminal in 
-
-- WHILE DOING THIS, LOOK OUT FOR ANY POTENTIAL WINDOWS FILE PATH ISSUES in exercises
-
-
 ## Exercise overview
 
-Give quick overview about context of exercises and their intention
+These exercises will let you practice writing Unit Tests for a pre-built
+application: `bookManager.js`
 
 
-## Specific exercises listed in numbered order
+## Getting Started
 
-Add disclaimer if exercises are stored inside of specific files as comments
 
-Also, for a plain text reference, theres always the `EXERCISE-INSTRUCTIONS` files to pop open
+1. Using Visual Studio Code, open the folder `flexpath-unit-testing-with-jest-exercises` 
+   wherever you saved it on your device. 
+2. Then open the `flexpath-unit-testing-with-jest-exercises/exercise` folder. 
+   Inside this folder are the following files:
+   - `bookManager.js` - a pre-built application that you will be writing tests for
+   - `package.json` - manages packages and scripts for the bookManager app
+   - `jest.config.js` - configuration file that tells Jest how to behave in this
+                        folder
+   - `EXERCISE-INSTRUCTIONS.txt` - the instructions for each exercise
+   - `tests/bookManager.test.js` - the starting file where you will write your tests.
 
-To answer questions that don't require coding, please create a file in the repo named 
-[exercise_number_answer].txt.
+3. Before you start these exercises, open your VS code terminal,
+   navigate inside of the `exercise/` folder, and run `npm install` in the terminal.
+   This will install all npm packages required for you to complete these
+   exercises.
+4. As you work through the exercises outlined in `EXERCISE-INSTRUCTIONS.txt`, you 
+   will create tests based on the exercise prompt. Each time you create a test,
+   you should run it to ensure your test is behaving as expected.
 
-For example, if in one of the exercise repos question 13 just asked a question to explain a programming concept, store your answer inside of a new file named exercise_13_answer.txt.
+   There are also some questions that don't require code for an answer. In those
+   cases, save your answers for these questions directly inside of the 
+   `EXERCISE-INSTRUCTIONS.txt` file.
+5. You will run your tests by opening your VS Code terminal, navigating
+   inside of the `exercise/` folder using the change directory `cd` command,
+   and you will run the following command: `npm run test`.
+6. Once you get to exercise 9, feel free to create new `[exercise_xx].test.js`
+   files inside of the `/exercise/tests/` folder to organize your code.
 
-## Testing / Verification
+   As long as your file name ends with `.test.js` and its in the `tests/` folder,
+   Jest will be able to find it and run it when you run `npm run test` in your
+   VS code terminal.
+                                     
 
-Include relevant details here about where solution files are stored
+The solutions for these exercises are in their own Github repo.
+The link to the GitHub repo is inside of `/solutions/exercise-solutions/solution-repo.txt`.
+
+Make sure to fork the solution repo, THEN clone it to your local device to run the code.
+
+We have also provided a video showing how to run `npm install` in the proper location
+and run Jest on your `.test.js` files.
+
 
 &nbsp;
 ---
