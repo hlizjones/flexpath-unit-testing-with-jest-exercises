@@ -48,8 +48,8 @@ The link to the GitHub repo is inside of `/solutions/exercise-solutions/solution
 
 Make sure to fork the solution repo, THEN clone it to your local device to run the code.
 
-We have also provided a video showing how to run `npm install` in the proper location
-and run Jest on your `.test.js` files.
+We have also provided a video `jest-exercises.mp4` showing you how to 
+run `npm install` in the proper locationand run Jest on your `.test.js` files.
 
 
 &nbsp;
