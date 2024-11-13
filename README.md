@@ -51,6 +51,9 @@ Make sure to fork the solution repo, THEN clone it to your local device to run t
 We have also provided a video `jest-exercises.mp4` showing you how to 
 run `npm install` in the proper locationand run Jest on your `.test.js` files.
 
+VIDEO DISCLAIMER - You will need to clone the repo to your local device before
+you can watch the .mp4 file since GitHub does not support watching it from here.
+
 
 &nbsp;
 ---
