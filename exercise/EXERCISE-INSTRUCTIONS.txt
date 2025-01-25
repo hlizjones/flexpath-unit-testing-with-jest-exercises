@@ -9,7 +9,11 @@ Explain the purpose of unit tests in the context of the `addBook` and
 
 How do unit tests fit into the software development lifecycle for this module?
 
-
+Unit tests are part of the development phase of the software development lifecycle. 
+They help ensure that functions performs their specific, intended task by isolating
+them with unit testing. A unit test for addBook ensures that a book can be succesfully
+pushed into the array books and a unit test for removeBook ensures that a book can be 
+succesfully removed from the array books.
 
 Exercise 2:
 
@@ -19,6 +23,10 @@ Describe the differences between manual testing and automated unit testing for
 the `findBooksByAuthor` function. 
 
 What are the benefits of using automated tests in this case?
+Automated unit testing is faster and more accurate than manual testing which
+would require a person manually checking each function. A unit test for findBooksByAuthor
+could test multiple scenarios. A person would take much longer to test the same
+number of scenarios.
 
 
 
@@ -31,7 +39,6 @@ new function `updateBookTitle(oldTitle, newTitle)` in bookManager.js before
 implementing it. 
 
 The function should update the title of a book.
-
 
 
 Exercise 4:
@@ -157,7 +164,9 @@ Question:
 Explain how code coverage metrics like statement, branch, function, 
 and line coverage help in assessing code quality for bookManager.js.
 
-
+Code coverage metrics help identity which parts of the code have been tested for proper functionality.
+An HTML file can be opened to help visualize the code coverage. The file has useful tools such as highlighting
+lines covered by the tests. 
 
 Exercise 17:
 
@@ -166,7 +175,9 @@ Question:
 Discuss the importance of code coverage thresholds and how they 
 enforce code quality in a project like bookManager.js.
 
-
+With thresholds, Jest will flag if less than the determine percentage is covered by tests.
+Code coverage metrics can be relative to the stage in a project as thresholds can be increased as more and more tests are added.
+Git pre-commit hooks can prevent commits if coverage is below the certain thresholds.
 
 Exercise 18:
 

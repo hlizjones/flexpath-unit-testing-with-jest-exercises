@@ -39,11 +39,23 @@ const saveBooks = () => {
   });
 };
 
+function updateBookTitle(oldTitle, newTitle) {
+  const book = books.find((book) => book.title === oldTitle);
+  if (!book) throw new Error("Book not found");
+  book.title = newTitle;
+  return book;
+};
+
 module.exports = {
   addBook,
   removeBook,
   findBooksByAuthor,
   loadBooks,
   saveBooks,
+  updateBookTitle,
   books,
 };
+
+let book =addBook("title", "author")
+console.log(book)
+console.log(findBooksByAuthor("author"))

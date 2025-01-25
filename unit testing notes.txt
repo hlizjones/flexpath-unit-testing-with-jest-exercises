@@ -1,0 +1,495 @@
+Unit Tests
+    Best practice to have unit tests
+    Faster than manual testing bc they can be run automaticall
+    Facilate Test Driven Development -> Test developeed before code
+    Documentation -> unit tests are rules and code is implementation of those rules
+    Tests smallest unit of code that we can (vs inegration and E2E tests which test larger sections of code)
+
+Jest
+    Key Benefits:
+        No config
+        Intuitive API
+        Run in parallel -> helps performance
+        Works with majority of JS projects (Angular, React, etc)
+
+Install
+    In terminal: npm install hest --save-dev 
+        save-dev adds to package.json as dependences
+    Update package.json to have "test": "jest"
+        allows up to use npm test to run our tests
+        type npm test in the terminal to run test
+
+Run
+    In termainal: npm test -- filename
+        npm test -- basket.test.js
+
+Writing  a test
+    Tests check that values meet certain conditions
+    use test() func to define test
+    has 3 args: 
+        1) name -> be clear what is being tests, descriptive and concise
+        2) func -> main part, contains expectations for test
+        3) timeout -> opt, defaults to 5 secds which is usually fine, how long to wait before failing test
+
+        function getTagLine(event, minimumTicketCount, isPopular) {//code}
+
+        const {Event, getTagLine, createEvent} = require("../../js/events/event");
+
+        test("Test tag line returns sold out when no tickets left", () => { 
+            const event = new Event(1, "Best of 90s Punk!", 40.00, 100, 0);
+            const tagLine = getTagLine(event, 10, true);
+
+            expect(tagLine).toBe("Event Sold Out!"); //expect func -> arg will always be a value/function that you want to validte -> will never use expect on its own
+        });
+
+    Expect gives access to func that are known as matrches which let you validate  dif things -> matches specify what validation we are wanting to performance
+
+Describe block
+    Groups tests together; one describe block per func
+    Give describe block name of func being tested
+
+    Hooks 
+        Allows tasks to be performs before and after -> setting up and tearing down tasks (ie. fetching data)
+        Avoid code duplication
+        Can put inside describe blocks to only apply to specific tests
+        
+        beforeA11(() => {
+        // Runs once before any tests have run
+        })
+
+        beforeEach(() => {
+        // Runs before every test
+        })
+
+        afterEach(() => {
+        // Runs after every test
+        })
+
+        afterAll(() => {
+        // Runs after all tests have run
+        })
+
+            const basket = require("../../js/basket/basket");
+            const {Event} = require("../../js/events/event");
+            const {BasketItem} = require("../../js/basket/basketitem");
+            const {User} = require("../../js/users/users");
+
+            describe("calculateTotal", () => {
+                let events = [];
+                let items = [];
+                
+                beforeEach(() => {
+                    events = [
+                        new Event(1, "A Night At The Proms", 2500.00, 2500, 2500),
+                        new Event(2, "Taylor Swift", 50.00, 5500, 2500),
+                        new Event(3, "Rage Against The Machine", 35.00, 2500, 2500),
+                    ];
+                
+                    items = [
+                        new BasketItem(events[0], 1),
+                        new BasketItem(events[1], 4),
+                        new BasketItem(events[2], 2),
+                    ];
+                })
+                
+                test("Test calculates total basket price when no discount applied", () => {
+
+                        const total = basket.calculateTotal(items);
+
+                        expect(total).toBeCloseTo(2770.00, 2)
+                });
+
+                test("Test calculates total basket price with discount", () => {
+
+                        const total = basket.calculateTotal(items, 800);
+
+                        expect(total).toBeCloseTo(1970.00, 2)
+                });
+            });
+
+Test Files
+    Naming
+        Must have .test in name
+        Should match name of file being tested
+            basket.test.js
+
+    Location
+        Can put in same directory as source code 
+        OR
+        Create separate directory for test and give each file its own directory
+
+Jest Configuration
+    Not required but can be done with jest config file
+    Jest.config.js|ts|mjs|cjs|json will be automatically discovered
+    Can specify a path in terminal with --config
+    Config file must return a config object
+    Can use a Jest key in the package.json file
+
+    CLI
+
+    jest: runs all tests
+
+    jest <file name>: runs file name
+
+    jest /tickets/*: runs file path
+
+    jest -- findRelatedTests <file names>: runs all tests related to list of files (files serparated by space)
+
+    jest -o (jest -onlyChanged): only runs tests for code that has been changed (must have GIT)
+
+    If running jest using npm test scripts need double dash at end 
+        Ex: npm test -- -onlyChanged
+
+
+Matches
+    validate that values meet certain conditions
+    test parts of the testsfuncs that act as assertions
+    .not can be used with all matches
+
+    To Be or Not to Be -> for primitive types
+        .toBe
+        .nottoBe
+            expect(basket.showAverts(user)).toBe(true)
+
+        will not work on objects -> checks is objects are the same object
+
+    Testing Equality -> other data types
+        .toEqual
+        recursively compares properties of objects
+
+        toSrtcitEqual 
+            keys with undefined properties are checked
+                {a: undefined, b:1} and {b: 1} would be equal with .toEqual but unequal with .toStrictEqual
+
+            array sparseness is checked
+            
+            object types are check  
+                ie. class instance would not match a literal object
+
+    Pattern Matching
+        use for large object, unknown return value, value doesn't matter
+        can be used for iterables
+
+        .toContain
+
+            describe("searchBasket", () => {
+            test("Only returns events that match the search query", () => {
+                const events = [
+                    new Event(1, "The Movie Premiere", 2500.00, 2500, 2500),
+                    new Event(2, "Rock n Roll night", 50.00, 5500, 2500),
+                    new Event(3, "The Raging Machine", 35.00, 2500, 2500),
+                ]
+            
+                const items = [
+                    new BasketItem(events[0], 1), //this one
+                    new BasketItem(events[1], 4),
+                    new BasketItem(events[2], 2), //this one
+                ];
+
+                const foundItems = basket.searchBasket(items, "THE");
+
+                expect(foundItems).toContain(items[0]); //items returned are the first and third items in the basket array above
+                expect(foundItems).toContain(items[2]);
+
+                expect(foundItems).not.toContain(items[1]);
+                });
+                });
+
+        .toMatch
+
+            const promotions = require("../../js/promotions/promotions");
+
+            describe("generateReferralCode", () => {
+                test("Referral code contains userId", () => {
+                    const userId = '1234';
+                    const referralCode = promotions.generateReferralCode(userId);
+
+                    expect(referralCode).toContain(userId);
+                    expect(referralCode).toMatch(userId);
+                });
+
+                test("Referral code has correct format", () => {
+                    const userId = '1234';
+                    const referralCode = promotions.generateReferralCode(userId);
+
+                    expect(referralCode).toMatch(/#FRIEND-#\d+-#1234/); //toMath validates format; matches whatever random numbers are generated for the ID as long as they're in the right format
+                });
+                });
+
+        .toBeTruthy and .toBeFalsy
+            Use if you don't care about the actual value
+
+            If you're searching for a specific falsy, use a specific matcher 
+                ex: .toBeNull
+
+        .toThrow
+            Use to test errors
+            Use expect statement differently
+            Wrap function call to our source code in a function
+                If you want to test that a function throws an error, you should pass a function reference (not the result of calling the function) to .toThrow.
+                This is because Jest needs to invoke the function during the test to check whether it throws an error.
+            
+            Args Passed In:
+            Reguar expression as arg will validated error mesage follows that pattern
+            String as arg will validated error mesage matches that string
+            Type of error expected to be
+                ex: InvalidEventNameError
+            Error object with exact error message
+                ex: (new InvalidEventNameError("Event name cannot exceed 200 characters")) //create new instance of InvalidEventNameError with exact error message
+
+Mocks
+    To test links btw code
+    Mock functions help you test how your code connects by swapping out the real function with a basic version
+    Testing method where you use "mock objects" to imitate how other parts of your code behave -> helps you focus on testing the interactions btw dif parts w/o needing to use the real versions of those components
+    Keeps tests small and independent
+    Called spies
+        calls to mock func are captured
+        captures confirms code is behaving as expected
+    ALlows for config of return values for func tot simulate bahave
+    Avoid tasks (ie network requests) that are time consuming and complicated
+    
+    Key point: allows us to test only what we need to test by removing or controlling dependencies
+        -> think of it like: "When userExists is called, instead of doing its real logic, just return a promise that resolves with false."
+
+            const { getEvents } = require("../../js/events/search");
+            const { Event } = require("../../js/events/event");
+
+            describe('getEvents', () => { //getEvents is what is being tested
+                test('Returns events with ticket prices less than 30', () => {
+                    const searchPredicateMock = jest.fn(e => e.ticketPrice < 30); //searchPredicate func will be tested with their own unit test, we don't want to test it in the getEvents test
+
+                    const expectedEvent1 = new Event(1, "Pop goes Punk!", 20.00, 1000, 1000);
+                    const expectedEvent2 = new Event(4, "Party Like Its 1990!", 10.00, 1000, 1000);
+                    const expectedEvent3 = new Event(7, "Head Banging Tunes of the Noughties", 29.99, 1000, 1000);
+                    
+                    const events = [
+                        expectedEvent1,
+                        new Event(2, "The Music of The Elders", 70.00, 1000, 1000),
+                        new Event(3, "Glastonbury 2025", 250.00, 1000, 1000),
+                        expectedEvent2,
+                        new Event(5, "Radio Tunes Extravanganza", 50.00, 1000, 1000),
+                        new Event(6, "Jump Around", 30.01, 1000, 1000),
+                        expectedEvent3
+                    ];
+
+                    const filterResults = getEvents(events, searchPredicateMock);
+
+                    expect(filterResults).toEqual([
+                        expectedEvent1,
+                        expectedEvent2,
+                        expectedEvent3
+                    ])
+
+                    expect(searchPredicateMock).toHaveBeenCalled(); //Mocks can show if they have been called
+                    expect(searchPredicateMock.mock.calls.length).toBe(7) //Mocks have their own properties which provide add data
+                    expect(searchPredicateMock.mock.calls[0][0]).toBe(events[0]) //.calls[0][0] gets first argument of first call made to the mock, repeat for the other calls (not show here)
+                });
+            });
+
+        jest.spyOn -> same as using jest.fn but also has a obj and method to track to calls to
+        
+        .mockReturnValue -> specified return value
+            other methods to config mock to generate dif response everytime
+
+        .useFakerTimers().setSystemTime() -> can specify time/dates
+            can also be used to fake setTimeout()
+
+AutoMock
+    Toggle on -> all imported modules will automatically be mocked
+    Removed the need to add explicits mocks for dependencies
+        can use mock properties as if we had added in mocks
+    Must explicitly "unmock" funcs you don't want to be mocked
+    Can ensure tests are only testing a single unit
+    Toggling auto mock on for existing text suites w/o mocked can make tests failing
+        Should be introduced at start
+
+            const users = require("../../js/users/users");
+            const account = require("../../js/users/account/account");
+            const purchaseHistory = require("../../js/users/account/purchaseHistory/purchaseHistory")
+            jest.mock("../../js/users/account/purchaseHistory/purchaseHistory"); //WITHOUT automock a modeule dependency pass in path to dependency, just.mock must called in same scope as corresponding require/import statement
+
+            describe("getPastPurchases", () => { //normally getPastPurchases calls another function getPurchaseHistory which makes http -> add flakiness to test and required endpoint -> getpurchaseHistory should be made into mock to remove the getPastPurchases's dependency on it and isolate the test to kjust be for getPastPurchases
+                test("Test gets past purchase history", () => {
+                    const userId = 123;
+                    const items = account.getPastPurchases(userId); 
+                    expect(items).toEqual([
+                        {
+                            name: "Punk Goes Pop - 90s",
+                            tickets: 2,
+                            price: 40.00,
+                        },
+                        {
+                            name: "Adventures Live!",
+                            tickets: 5,
+                            price: 120.00,       
+                        },
+                        {
+                            name: "Folk dance party!",
+                            tickets: 3,
+                            price: 75.00,
+                        }
+                    ]);
+                });
+
+                test("Throws error when readyState is not 4", () => {
+                    jest.spyOn(purchaseHistory, 'getPurchaseHistory').mockReturnValue({ //use spyOn and mockReturnValue to override and determine different result for getPurchaseHistory
+                        readyState: 2,        
+                        onreadystatechange: null,
+                        response: {
+                            events: [
+                            ],
+                        }   
+                    });
+                    expect(() => account.getPastPurchases(123)).toThrow("Failed to get purchase history");
+                })
+            });
+
+    jest.config.json -> defaults to false so if not needed, no need for this file
+        {
+        "automock": true
+        }
+
+        jest.unmock(//path) to exempt function you are testing
+
+Manual Mocks
+    add _mock_ directory in file we want to mock and add a file with the same name of the file we want to mock
+    
+    const purchaseHistory = jest.createMockFromModule('../purchaseHistory');//use createMockFromModule method, pass in the path of the file with the actual module implementation
+
+            function __getPurchaseHistory() { //underscores used as a convention
+                const response = { //return static data so we know what data to expect in test
+                    readyState: 4,        
+                    onreadystatechange: null,
+                    response: {
+                            events: [
+                                {
+                                    name: "Punk Goes Pop - 90s",
+                                    tickets: 2,
+                                    price: 40.00,
+                                },
+                                {
+                                    name: "Adventures Live!",
+                                    tickets: 5,
+                                    price: 120.00,       
+                                },
+                                {
+                                    name: "Folk dance party!",
+                                    tickets: 3,
+                                    price: 75.00,
+                                }
+                            ],
+                    }
+                }
+                return response;
+            }
+
+            purchaseHistory.getPurchaseHistory = __getPurchaseHistory; //assign new implementation to mock
+
+
+            module.exports = purchaseHistory;
+
+Testing Async Code
+
+    Promises
+    
+        describe("createAccount", () => {
+            let newEmailAddress = "newuser2@pluralsight.com"
+            beforeEach(() => {
+                jest.spyOn(users, 'userExists').mockResolvedValue(false) //used for mocking async functions that return a promise -> telle jest to return a resolved Promise w/ a specific value
+            })
+        })
+
+        test("Returns user data when account created successfully", () => {
+            expect.hasAssertions(); //makes sure one assertion is run, avoids false positive when testing promises; this fails jest test if jest finishes the test w/ no assertions -> .assertions can specify number of assetions expected
+            return account.createAccount(newEmailAddress) //return before account.createAccount(newEmailAddress) is how Jest knows to wait for the Promise returned by createAccount to resolve before moving on to the next part of the test; w/o return jest might complete test w/o running assertions leading to false positive
+                .then((userAccount) => { //add expect statement in .then(), handles returned promise from account.createAccount
+                    expect(userAccount).toStrictEqual({"data": {"userId": 2, "username": newEmailAddress}});
+                });
+        });
+
+    Await
+
+        test("Returns user data when account created successfully - async/await", async () => { //use async keyword
+            expect.hasAssertions(); //use .hasAssertions statement
+
+            const userAccount = await account.createAccount(newEmailAddress); //add await keyword 
+            expect(userAccount).toStrictEqual({"data": {"userId": 2, "username": newEmailAddress}});
+        });
+
+    Use .resolves or . rejects
+
+        test("Returns user data when account created successfully - .resolves", () => {
+        expect.hasAssertions();
+
+        expect(account.createAccount(newEmailAddress)).resolves.toStrictEqual({"data": {"userId": 2, "username": newEmailAddress}});
+        });
+
+        test("Returns error message when user already exists", () => {
+        jest.spyOn(users, 'userExists').mockReturnValue(true); //mockReturnValue still works w/ async
+
+        expect.hasAssertions();
+
+        return expect(account.createAccount(newEmailAddress)).rejects.toStrictEqual("User already exists");
+        }) //can combine async await w/ .resolves/.rejects -> can replace return w/ await
+
+            either way, must ALWAYS return or await the async function
+
+Callbacks
+
+    const exchange = require("../../js/promotions/exchange/exchange");
+    const exchangeRateProvider = require("../../js/promotions/exchange/exchangeRateProvider");
+
+    describe("getExchangeRate", () => {
+        test("Returns correct exchange rate for US Dollars", done => { //done updates the test, jest knows to wait until done callback is called before finishing test
+            jest.spyOn(exchangeRateProvider, 'callExchangeRateProvider').mockResolvedValue(1.21);
+
+            function callback(data) {
+                try { //add expect statements inside callback
+                    expect(data.originalCurrency).toBe("GBP");
+                    expect(data.newCurrency).toBe("USD");
+                    expect(data.exchangeRate).toBeCloseTo(1.21);//.toBeCloseTo better for numbers with JS rounding
+                    done();
+                } catch (error) {//provides place for timeout error to land if expect fails doesn't get to done() 
+                    done(error);
+                }
+            }
+            exchange.getExchangeRate("USD", callback);
+        });
+    });
+
+Measuring Code Coverage
+    how much code is executed by test
+    Babel is used by Jest by default to facilitate measuring code Coverage
+    4 metrics: statements, branches, functions, and lines
+        Branch
+            created by control structures 
+                ie if(){}else{} 
+                    -> two branches one for if and one for else
+                    -> 50% branch test coverage if if() {} was tested but else {} wasn'tag
+
+    jest.config.json file
+
+     {
+        "automock": false,
+        "collectCoverage": true, //set to true
+        "collectCoverageFrom": ["js/**/*.{js,jsx}"], //specify what files to collect coverage for -> pattern to match all files in directory 
+    }
+    
+    combine with onlychanged argument to get coverage stats only for files that have been changed
+
+Results
+    Will also output into coverage directory
+    Can open html file to view statistics -> see highlighted code for which lines were covered
+
+    Coverage thresholds specify code coverage level
+        "coverageThreshold": {
+            "global": { //better to only add global threshols bc simplier but can specify files if concentrating on adding files or only some files are finished
+                "statements": 50, //jest will flag if less than 50% of statments are executing for tests
+                "branches": 30,
+                "functions": 50,
+                "lines": -10 //negative numbers is count, not percentage ex: jest alerts if less than 10 are covered by tests
+                }
+            }
+
+    can increase thresholds as more and more tests are added
+    Git pre-commit hooks can prevent commits if coverage is below the certain thresholds
